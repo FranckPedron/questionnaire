@@ -25,5 +25,5 @@ def poser_question(question, propositions, bonne_reponse):
 
 
 score = 0
-poser_question("Quelle est la capitale de la France", ["(a) Paris", "(b) Marseille", "(c) Lyon"], "a")
+poser_question("Quelle est la capitale de la France", ("(a) Paris", "(b) Marseille", "(c) Lyon"), "a")
 print("Score final", score)
