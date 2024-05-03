@@ -25,10 +25,14 @@ def poser_question(question):
     traiter_reponse(question)
 
 
+def afficher_score(s):
+    print("Score final", s)
+
+
 score = 0
 
 question1 = ("Quelle est la capitale de la France", ("(a) Paris", "(b) Marseille", "(c) Lyon"), "a")
 
 poser_question(question1)
 
-print("Score final", score)
+afficher_score(score)
