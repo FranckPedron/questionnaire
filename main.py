@@ -4,14 +4,16 @@ def afficher_titre_question(question):
 
 def afficher_propositions(question):
     propositions = question[1]
-    for p in propositions:
-        print(p)
+    for i in range(len(propositions)):
+        print(i+1, "-", propositions[i])
 
 
 def traiter_reponse(question):
     global score
-    reponse = input("Votre réponse: ")
-    if reponse == question[2]:
+    choix = question[1]
+    reponse = input(f"Votre réponse (entre 1 et {len(question[1])}) : ")
+    reponse_choisie = int(reponse)-1
+    if choix[reponse_choisie].lower() == question[2].lower():
         print("Bonne réponse")
         score += 1
     else:
@@ -23,6 +25,7 @@ def poser_question(question):
     afficher_titre_question(question)
     afficher_propositions(question)
     traiter_reponse(question)
+    print()
 
 
 def afficher_score(s):
@@ -31,8 +34,10 @@ def afficher_score(s):
 
 score = 0
 
-question1 = ("Quelle est la capitale de la France", ("(a) Paris", "(b) Marseille", "(c) Lyon"), "a")
+question1 = ("Quelle est la capitale de la France ?", ("Paris", "Marseille", "Lyon"), "Paris")
+question2 = ("Quelle est la capitale de l'Italie ?", ("Turin", "Naple", "Rome", "Milan"), "Rome")
 
 poser_question(question1)
+poser_question(question2)
 
 afficher_score(score)
