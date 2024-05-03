@@ -11,14 +11,25 @@ def afficher_propositions(question):
 def traiter_reponse(question):
     global score
     choix = question[1]
-    reponse = input(f"Votre réponse (entre 1 et {len(question[1])}) : ")
-    reponse_choisie = int(reponse)-1
+    reponse_choisie = demander_reponse_numerique(1, len(question[1]))
     if choix[reponse_choisie].lower() == question[2].lower():
         print("Bonne réponse")
         score += 1
     else:
         print("Mauvaise réponse")
         score -= 1
+
+
+def demander_reponse_numerique(min, max):
+    reponse = input(f"Votre réponse (entre {min} et {max}) : ")
+    try:
+        reponse_int = int(reponse)
+        if min <= reponse_int <= max:
+            return reponse_int-1
+        print(f"ERREUR: Vous devez entrer un nombre entre {min} et {max}")
+    except:
+        print("ERREUR: Vous devez entrer uniquement des chiffres")
+    return demander_reponse_numerique(min, max)
 
 
 def poser_question(question):
