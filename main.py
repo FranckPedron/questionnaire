@@ -1,16 +1,17 @@
-def afficher_question(question):
-    print("Question:", question)
+def afficher_titre_question(question):
+    print("Question:", question[0])
 
 
-def afficher_propositions(propositions):
+def afficher_propositions(question):
+    propositions = question[1]
     for p in propositions:
         print(p)
 
 
-def traiter_reponse(bonne_reponse):
+def traiter_reponse(question):
     global score
     reponse = input("Votre réponse: ")
-    if reponse == bonne_reponse:
+    if reponse == question[2]:
         print("Bonne réponse")
         score += 1
     else:
@@ -18,12 +19,16 @@ def traiter_reponse(bonne_reponse):
         score -= 1
 
 
-def poser_question(question, propositions, bonne_reponse):
-    afficher_question(question)
-    afficher_propositions(propositions)
-    traiter_reponse(bonne_reponse)
+def poser_question(question):
+    afficher_titre_question(question)
+    afficher_propositions(question)
+    traiter_reponse(question)
 
 
 score = 0
-poser_question("Quelle est la capitale de la France", ("(a) Paris", "(b) Marseille", "(c) Lyon"), "a")
+
+question1 = ("Quelle est la capitale de la France", ("(a) Paris", "(b) Marseille", "(c) Lyon"), "a")
+
+poser_question(question1)
+
 print("Score final", score)
