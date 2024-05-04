@@ -9,15 +9,16 @@ def afficher_propositions(question):
 
 
 def traiter_reponse(question):
-    global score
+    reponse_correcte = False
     choix = question[1]
     reponse_choisie = demander_reponse_numerique(1, len(question[1]))
     if choix[reponse_choisie].lower() == question[2].lower():
         print("Bonne réponse")
-        score += 1
+        reponse_correcte = True
     else:
         print("Mauvaise réponse")
-        score -= 1
+
+    return reponse_correcte
 
 
 def demander_reponse_numerique(min, max):
@@ -35,20 +36,26 @@ def demander_reponse_numerique(min, max):
 def poser_question(question):
     afficher_titre_question(question)
     afficher_propositions(question)
-    traiter_reponse(question)
+    return traiter_reponse(question)
+
+
+def lancer_questionnaire(questionnaire):
+    score = 0
+    for question in questionnaire:
+        if poser_question(question):
+            score += 1
+    afficher_score(score, questionnaire)
+
+
+def afficher_score(s, q):
     print()
+    print("Score final", s, "/", len(q))
 
 
-def afficher_score(s):
-    print("Score final", s)
+questionnaire = (
+    ("Quelle est la capitale de la France ?", ("Paris", "Marseille", "Lyon"), "Paris"),
+    ("Quelle est la capitale de l'Italie ?", ("Turin", "Naple", "Rome", "Milan"), "Rome"),
+    ("Quelle est la capitale de la Belgique ?", ("liège", "Bruxelle", "Bruges", "Ostende", "Anvers"), "Bruxelle")
+)
 
-
-score = 0
-
-question1 = ("Quelle est la capitale de la France ?", ("Paris", "Marseille", "Lyon"), "Paris")
-question2 = ("Quelle est la capitale de l'Italie ?", ("Turin", "Naple", "Rome", "Milan"), "Rome")
-
-poser_question(question1)
-poser_question(question2)
-
-afficher_score(score)
+lancer_questionnaire(questionnaire)
