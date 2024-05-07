@@ -1,61 +1,65 @@
-def afficher_titre_question(question):
-    print("Question:", question[0])
+class Question:
+    def __init__(self, titre, choix, bonne_reponse):
+        self.titre = titre
+        self.choix = choix
+        self.bonne_reponse = bonne_reponse
+
+    def afficher_titre_question(self):
+        print("Question:", self.titre)
+
+    def afficher_propositions(self):
+        propositions = self.choix
+        for i in range(len(propositions)):
+            print(i+1, "-", propositions[i])
+
+    def traiter_reponse(self):
+        reponse_correcte = False
+        # choix = self.choix
+        reponse_choisie = Question.demander_reponse_numerique(1, len(self.choix))
+        if self.choix[reponse_choisie].lower() == self.bonne_reponse.lower():
+            print("Bonne réponse")
+            reponse_correcte = True
+        else:
+            print("Mauvaise réponse")
+
+        return reponse_correcte
+
+    def demander_reponse_numerique(mini, maxi):
+        reponse = input(f"Votre réponse (entre {mini} et {maxi}) : ")
+        try:
+            reponse_int = int(reponse)
+            if mini <= reponse_int <= maxi:
+                return reponse_int-1
+            print(f"ERREUR: Vous devez entrer un nombre entre {mini} et {maxi}")
+        except:
+            print("ERREUR: Vous devez entrer uniquement des chiffres")
+        return demander_reponse_numerique(mini, maxi)
+
+    def poser_question(self):
+        self.afficher_titre_question()
+        self.afficher_propositions()
+        return self.traiter_reponse()
 
 
-def afficher_propositions(question):
-    propositions = question[1]
-    for i in range(len(propositions)):
-        print(i+1, "-", propositions[i])
+class Questionnaire:
+    SCORE = 0
+
+    def __init__(self, questions):
+        self.questions = questions
+
+    def lancer_questionnaire(self):
+        for question in self.questions:
+            if question.poser_question():
+                Questionnaire.SCORE += 1
+        self.afficher_score()
+
+    def afficher_score(self):
+        print()
+        print("Score final", self.SCORE, "/", len(self.questions))
 
 
-def traiter_reponse(question):
-    reponse_correcte = False
-    choix = question[1]
-    reponse_choisie = demander_reponse_numerique(1, len(question[1]))
-    if choix[reponse_choisie].lower() == question[2].lower():
-        print("Bonne réponse")
-        reponse_correcte = True
-    else:
-        print("Mauvaise réponse")
-
-    return reponse_correcte
-
-
-def demander_reponse_numerique(min, max):
-    reponse = input(f"Votre réponse (entre {min} et {max}) : ")
-    try:
-        reponse_int = int(reponse)
-        if min <= reponse_int <= max:
-            return reponse_int-1
-        print(f"ERREUR: Vous devez entrer un nombre entre {min} et {max}")
-    except:
-        print("ERREUR: Vous devez entrer uniquement des chiffres")
-    return demander_reponse_numerique(min, max)
-
-
-def poser_question(question):
-    afficher_titre_question(question)
-    afficher_propositions(question)
-    return traiter_reponse(question)
-
-
-def lancer_questionnaire(questionnaire):
-    score = 0
-    for question in questionnaire:
-        if poser_question(question):
-            score += 1
-    afficher_score(score, questionnaire)
-
-
-def afficher_score(s, q):
-    print()
-    print("Score final", s, "/", len(q))
-
-
-questionnaire = (
-    ("Quelle est la capitale de la France ?", ("Paris", "Marseille", "Lyon"), "Paris"),
-    ("Quelle est la capitale de l'Italie ?", ("Turin", "Naple", "Rome", "Milan"), "Rome"),
-    ("Quelle est la capitale de la Belgique ?", ("liège", "Bruxelle", "Bruges", "Ostende", "Anvers"), "Bruxelle")
-)
-
-lancer_questionnaire(questionnaire)
+Questionnaire((
+    Question("Quelle est la capitale de la France ?", ("Paris", "Marseille", "Lyon"), "Paris"),
+    Question("Quelle est la capitale de l'Italie ?", ("Turin", "Naple", "Rome", "Milan"), "Rome"),
+    Question("Quelle est la capitale de la Belgique ?", ("liège", "Bruxelle", "Bruges", "Ostende", "Anvers"), "Bruxelle")
+)).lancer_questionnaire()
