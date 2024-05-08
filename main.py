@@ -4,6 +4,10 @@ class Question:
         self.choix = choix
         self.bonne_reponse = bonne_reponse
 
+    def fromData(data):
+        quest = Question(data[0], data[1], data[2])
+        return quest
+
     def afficher_titre_question(self):
         print("Question:", self.titre)
 
